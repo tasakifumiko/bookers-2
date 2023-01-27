@@ -21,6 +21,15 @@ before_action :current_user, only: [:edit, :update, :destroy]
   def edit
     @book = Book.find(params[:id])
     @user = @book.user
+    
+    if @book.save
+      flash[:notice] = "Book was successfully updated."
+      redirect_to books_path(@book.id)
+    else
+      @books = Book.all
+      render edit_book_path(@book.id)
+    end
+    
   end
   
   def index
@@ -32,6 +41,7 @@ before_action :current_user, only: [:edit, :update, :destroy]
   def show
     @book = Book.find(params[:id])
     @user = @book.user
+    
   end
   
   def update
