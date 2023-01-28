@@ -1,5 +1,5 @@
 <main>
-  <p id="notice"><%=notice %></p>
+
    <div class="container px-5 px-sm-0">
     <div class="row">
       <div class="col-md-3">
@@ -19,11 +19,14 @@
           </tbody>
         </table>
         <div class="row">
-        <%= link_to edit_user_path(user.id), class: 'btn btn-outline-secondary btn-block' do %>
-        <i class="fas fa-user-cog"></i>
-        <% end %>
+
+              <%= link_to edit_user_path(user.id), class: 'btn btn-outline-secondary btn-block' do %>
+
+         <i class="fas fa-user-cog"></i>
+         <% end %>
         </div>
-        <h2 class="mt-3">New book</h2>
+
+         <h2 class="mt-3">New book</h2>
           <% if book.errors.any? %>
             <%= book.errors.count %>
              <% book.errors.full_messages.each do |message| %> errors prohibited this book from being saved:

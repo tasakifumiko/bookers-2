@@ -1,37 +1,33 @@
 class BooksController < ApplicationController
 before_action :current_user, only: [:edit, :update, :destroy]
-  
+
   def new
     @book = Book.new
   end
-  
+
   def create
-    @book = current_user.books.build(book_params)
     @book = Book.new(book_params)
     @book.user = current_user
     if @book.save
       flash[:notice] = "Book was successfully created."
-      redirect_to books_path(@book)
+      redirect_to book_path(@book.id)
     else
       @books = Book.all
-      render("books/index")
+      @user = current_user
+      render :index
     end
   end
-  
+
   def edit
     @book = Book.find(params[:id])
     @user = @book.user
-    
-    if @book.save
-      flash[:notice] = "Book was successfully updated."
-      redirect_to books_path(@book.id)
+    if @user == current_user
+      render :edit
     else
-      @books = Book.all
-      render edit_book_path(@book.id)
+      redirect_to books_path
     end
-    
   end
-  
+
   def index
     @books = Book.all
     @book = Book.new
@@ -40,32 +36,32 @@ before_action :current_user, only: [:edit, :update, :destroy]
 
   def show
     @book = Book.find(params[:id])
+    @booknew = Book.new
     @user = @book.user
-    
+
   end
-  
+
   def update
     @book = Book.find(params[:id])
-    
+
     if @book.update(book_params)
       flash[:notice] =  "Book was successfully updated."
       redirect_to book_path(@book.id)
     else
-      @book = book
-      render("books/edit")
+      render :edit
     end
   end
-  
 
-  
-  
+
+
+
   def destroy
     @book = Book.find(params[:id])
-    book.destroy
+    @book.destroy
     redirect_to '/books'
   end
-  
-  
+
+
   private
 
   def book_params
